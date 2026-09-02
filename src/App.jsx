@@ -1,122 +1,130 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+
+const workouts = [
+  { name: "Big Toe Stretch", detail: "30 seconds", tag: "01" },
+  { name: "Sit on heels", detail: "30 seconds", tag: "02" },
+  { name: "QL Extension at wall", detail: "2 sets of 15", tag: "03" },
+  { name: "90, 90, whole circuit", detail: "Each side 30 seconds", tag: "04" },
+  { name: "Seated Good Morning Form", detail: "2 sets of 5", tag: "05" },
+  { name: "Wall Pull Over", detail: "10 reps", tag: "06" },
+  { name: "Trap 3 raises on floor", detail: "10 reps", tag: "07" },
+  { name: "Couch Stretch", detail: "1 minute per side", tag: "08" },
+  { name: "Backward Walking", detail: "2 minutes", tag: "09" },
+  { name: "Forward and Backward Running", detail: "100 yards each", tag: "10" },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [completed, setCompleted] = useState([]);
+  const completedCount = completed.length;
+  const isFinished = completedCount === workouts.length;
+
+  function toggleWorkout(index) {
+    setCompleted((current) =>
+      current.includes(index)
+        ? current.filter((item) => item !== index)
+        : [...current, index],
+    );
+  }
+
+  function refreshScreen() {
+    window.location.reload();
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <main className="app-shell">
+      <header className="topbar">
+        <div className="brand-mark" aria-label="ATG Checklist home">
+          ATG<span>/</span>10
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+        <div className="day-label">
+          <span className="status-dot" /> DAILY CIRCUIT
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+      </header>
+      <section className="intro" aria-labelledby="page-title">
+        <p className="eyebrow">ATHLETIC TRAINING / FOUNDATION</p>
+        <h1 id="page-title">
+          Build your
+          <br />
+          <em>base.</em>
+        </h1>
+        <p className="intro-copy">
+          Ten movements. One daily practice.
+          <br />
+          Move well, then move further.
+        </p>
       </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      <section className="progress-panel" aria-label="Workout progress">
+        <div className="progress-meta">
+          <span>YOUR PROGRESS</span>
+          <strong>
+            {String(completedCount).padStart(2, "0")} <small>/ 10</small>
+          </strong>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+        <div className="progress-track">
+          <div
+            className="progress-fill"
+            style={{ width: `${completedCount * 10}%` }}
+          />
+        </div>
+        <p>
+          {isFinished
+            ? "Circuit complete."
+            : `${10 - completedCount} movements remaining today.`}
+        </p>
+      </section>
+      <section className="workout-list" aria-label="ATG workouts">
+        <div className="list-heading">
+          <span>THE CIRCUIT</span>
+          <span>CHECK OFF AS YOU GO</span>
+        </div>
+        <div className="workouts">
+          {workouts.map((workout, index) => {
+            const isCompleted = completed.includes(index);
+            return (
+              <button
+                className={`workout-row ${isCompleted ? "is-complete" : ""}`}
+                key={workout.name}
+                type="button"
+                onClick={() => toggleWorkout(index)}
+                aria-pressed={isCompleted}
+              >
+                <span className="workout-number">{workout.tag}</span>
+                <span className="workout-name">
+                  <strong>{workout.name}</strong>
+                  <small>{workout.detail}</small>
+                </span>
+                <span className="check-box" aria-hidden="true">
+                  {isCompleted ? "✓" : ""}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {isFinished && (
+        <section className="completion" aria-live="polite">
+          <p>CONGRATULATIONS</p>
+          <h2>
+            Congrats you completed the ATG circuit today.
+            <br />
+            See you tomorrow.
+          </h2>
+          <button
+            className="reset-button"
+            type="button"
+            onClick={refreshScreen}
+          >
+            Start a new circuit <span>↗</span>
+          </button>
+        </section>
+      )}
+      <footer>
+        <span>ATG CHECKLIST</span>
+        <span>SHOW UP. MOVE BETTER.</span>
+      </footer>
+    </main>
+  );
 }
 
-export default App
+export default App;

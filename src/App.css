@@ -1,3 +1,270 @@
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 1120px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 8.5%;
+  background: #f5f3ed;
+  overflow: hidden;
+}
+.topbar,
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #c9ccc2;
+}
+.topbar {
+  height: 76px;
+}
+.brand-mark {
+  color: #1f3029;
+  font:
+    700 19px/1 Arial,
+    sans-serif;
+  letter-spacing: -1px;
+}
+.brand-mark span {
+  color: #d25b38;
+  padding: 0 2px;
+}
+.day-label,
+footer {
+  color: #7b8178;
+  font:
+    700 10px/1 Arial,
+    sans-serif;
+  letter-spacing: 1.5px;
+}
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: #d25b38;
+}
+.intro {
+  padding: 76px 0 41px;
+}
+.eyebrow,
+.completion > p {
+  margin: 0 0 23px;
+  color: #d25b38;
+  font:
+    700 10px/1 Arial,
+    sans-serif;
+  letter-spacing: 2px;
+}
+h1 {
+  margin: 0;
+  color: #1f3029;
+  font-size: clamp(4.3rem, 9vw, 7.6rem);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: -7px;
+}
+h1 em {
+  color: #d25b38;
+  font-style: italic;
+}
+.intro-copy {
+  margin-top: 30px;
+  color: #69736b;
+  font-size: 17px;
+  line-height: 1.45;
+}
+.progress-panel {
+  max-width: 490px;
+  padding: 25px 0 38px;
+  border-top: 1px solid #c9ccc2;
+}
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  color: #69736b;
+  font:
+    700 10px/1 Arial,
+    sans-serif;
+  letter-spacing: 1.7px;
+}
+.progress-meta strong {
+  color: #1f3029;
+  font:
+    400 31px/1 Georgia,
+    serif;
+  letter-spacing: -1px;
+}
+.progress-meta small {
+  color: #9ba199;
+  font-size: 15px;
+}
+.progress-track {
+  height: 6px;
+  margin-top: 14px;
+  background: #dfe1d8;
+}
+.progress-fill {
+  height: 100%;
+  background: #d25b38;
+  transition: width 0.35s ease;
+}
+.progress-panel > p {
+  margin-top: 12px;
+  color: #8b9189;
+  font-size: 13px;
+}
+.list-heading {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 12px;
+  color: #9a9e96;
+  border-bottom: 1px solid #c9ccc2;
+  font:
+    700 9px/1 Arial,
+    sans-serif;
+  letter-spacing: 1.6px;
+}
+.workout-row {
+  display: grid;
+  grid-template-columns: 45px 1fr 24px;
+  align-items: center;
+  width: 100%;
+  min-height: 68px;
+  padding: 12px 0;
+  color: #22302b;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #d9dbd2;
+  cursor: pointer;
+  transition:
+    padding 0.2s ease,
+    color 0.2s ease;
+}
+.workout-row:hover {
+  padding-left: 8px;
+  color: #d25b38;
+}
+.workout-number {
+  color: #a3a79f;
+  font:
+    11px/1 Arial,
+    sans-serif;
+}
+.workout-name {
+  display: flex;
+  align-items: baseline;
+  gap: 15px;
+}
+.workout-name strong {
+  font-size: 19px;
+  font-weight: 400;
+}
+.workout-name small {
+  color: #8b9189;
+  font-size: 12px;
+}
+.check-box {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  color: #f5f3ed;
+  font:
+    700 12px/1 Arial,
+    sans-serif;
+  border: 1px solid #abb1a7;
+  transition:
+    background 0.2s ease,
+    border 0.2s ease;
+}
+.is-complete .workout-name strong {
+  color: #90978f;
+  text-decoration: line-through;
+}
+.is-complete .check-box {
+  background: #d25b38;
+  border-color: #d25b38;
+}
+.completion {
+  margin: 68px 0 32px;
+  padding: 29px 0 34px;
+  border-top: 1px solid #d25b38;
+  border-bottom: 1px solid #d25b38;
+  animation: rise 0.45s ease both;
+}
+.completion h2 {
+  margin: 0 0 26px;
+  color: #1f3029;
+  font-size: clamp(1.6rem, 3vw, 2.55rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -1px;
+}
+.reset-button {
+  padding: 12px 17px;
+  color: #f5f3ed;
+  background: #1f3029;
+  border: 0;
+  cursor: pointer;
+  font:
+    700 10px/1 Arial,
+    sans-serif;
+  letter-spacing: 1.2px;
+}
+.reset-button span {
+  margin-left: 25px;
+  color: #e89576;
+  font-size: 16px;
+}
+footer {
+  margin-top: 75px;
+  height: 73px;
+  border-top: 1px solid #c9ccc2;
+  border-bottom: 0;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 600px) {
+  .app-shell {
+    padding: 0 7%;
+  }
+  .topbar {
+    height: 62px;
+  }
+  .intro {
+    padding-top: 61px;
+  }
+  h1 {
+    letter-spacing: -4px;
+  }
+  .workout-name {
+    display: block;
+  }
+  .workout-name small {
+    display: block;
+    margin-top: 4px;
+  }
+  .workout-row {
+    grid-template-columns: 35px 1fr 24px;
+  }
+  footer {
+    margin-top: 54px;
+  }
+}
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -167,7 +434,7 @@
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: -4.5px;
     border: 5px solid transparent;
