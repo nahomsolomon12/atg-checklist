@@ -76,56 +76,18 @@ const workouts = [
   },
 ];
 
-function WorkoutVideoCarousel({ workout }) {
-  const [activeVideo, setActiveVideo] = useState(0);
-  const videoQuery = encodeURIComponent(workout.videos[activeVideo]);
-
-  function showVideo(direction) {
-    setActiveVideo(
-      (current) =>
-        (current + direction + workout.videos.length) % workout.videos.length,
-    );
-  }
+function WorkoutVideo({ workout }) {
+  const videoQuery = encodeURIComponent(workout.videos[0]);
 
   return (
-    <div className="video-carousel" aria-label={`${workout.name} video guides`}>
+    <div className="video-panel" aria-label={`${workout.name} video guide`}>
       <div className="video-frame">
         <iframe
           src={`https://www.youtube.com/embed?listType=search&list=${videoQuery}`}
-          title={`${workout.name} video guide ${activeVideo + 1}`}
+          title={`${workout.name} form video`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         />
-      </div>
-      <div className="carousel-controls">
-        <button
-          type="button"
-          className="carousel-arrow"
-          onClick={() => showVideo(-1)}
-          aria-label={`Previous ${workout.name} video`}
-        >
-          &#8592;
-        </button>
-        <div className="carousel-dots" aria-label="Choose video guide">
-          {workout.videos.map((video, index) => (
-            <button
-              type="button"
-              className={`carousel-dot ${activeVideo === index ? "is-active" : ""}`}
-              key={video}
-              onClick={() => setActiveVideo(index)}
-              aria-label={`Show video ${index + 1}: ${video}`}
-              aria-pressed={activeVideo === index}
-            />
-          ))}
-        </div>
-        <button
-          type="button"
-          className="carousel-arrow"
-          onClick={() => showVideo(1)}
-          aria-label={`Next ${workout.name} video`}
-        >
-          &#8594;
-        </button>
       </div>
     </div>
   );
@@ -133,6 +95,7 @@ function WorkoutVideoCarousel({ workout }) {
 
 function App() {
   const [completed, setCompleted] = useState([]);
+  const [openVideos, setOpenVideos] = useState([]);
   const completedCount = completed.length;
   const isFinished = completedCount === workouts.length;
 
@@ -146,6 +109,14 @@ function App() {
 
   function refreshScreen() {
     window.location.reload();
+  }
+
+  function toggleVideo(index) {
+    setOpenVideos((current) =>
+      current.includes(index)
+        ? current.filter((item) => item !== index)
+        : [...current, index],
+    );
   }
 
   return (
@@ -198,24 +169,36 @@ function App() {
         <div className="workouts">
           {workouts.map((workout, index) => {
             const isCompleted = completed.includes(index);
+            const isVideoOpen = openVideos.includes(index);
             return (
               <article className="workout-card" key={workout.name}>
-                <button
-                  className={`workout-row ${isCompleted ? "is-complete" : ""}`}
-                  type="button"
-                  onClick={() => toggleWorkout(index)}
-                  aria-pressed={isCompleted}
-                >
-                  <span className="workout-number">{workout.tag}</span>
-                  <span className="workout-name">
-                    <strong>{workout.name}</strong>
-                    <small>{workout.detail}</small>
-                  </span>
-                  <span className="check-box" aria-hidden="true">
-                    {isCompleted ? "✓" : ""}
-                  </span>
-                </button>
-                <WorkoutVideoCarousel workout={workout} />
+                <div className="workout-line">
+                  <button
+                    className={`workout-row ${isCompleted ? "is-complete" : ""}`}
+                    type="button"
+                    onClick={() => toggleWorkout(index)}
+                    aria-pressed={isCompleted}
+                  >
+                    <span className="workout-number">{workout.tag}</span>
+                    <span className="workout-name">
+                      <strong>{workout.name}</strong>
+                      <small>{workout.detail}</small>
+                    </span>
+                    <span className="check-box" aria-hidden="true">
+                      {isCompleted ? "✓" : ""}
+                    </span>
+                  </button>
+                  <button
+                    className={`video-toggle ${isVideoOpen ? "is-open" : ""}`}
+                    type="button"
+                    onClick={() => toggleVideo(index)}
+                    aria-expanded={isVideoOpen}
+                    aria-label={`${isVideoOpen ? "Hide" : "Show"} ${workout.name} form video`}
+                  >
+                    <span aria-hidden="true">⌄</span>
+                  </button>
+                </div>
+                {isVideoOpen && <WorkoutVideo workout={workout} />}
               </article>
             );
           })}

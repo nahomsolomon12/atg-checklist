@@ -129,6 +129,14 @@ h1 em {
     sans-serif;
   letter-spacing: 1.6px;
 }
+.workout-card {
+  border-bottom: 1px solid #d9dbd2;
+}
+.workout-line {
+  display: grid;
+  grid-template-columns: 1fr 35px;
+  align-items: stretch;
+}
 .workout-row {
   display: grid;
   grid-template-columns: 45px 1fr 24px;
@@ -140,7 +148,7 @@ h1 em {
   text-align: left;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid #d9dbd2;
+  border-bottom: 0;
   cursor: pointer;
   transition:
     padding 0.2s ease,
@@ -149,6 +157,48 @@ h1 em {
 .workout-row:hover {
   padding-left: 8px;
   color: #d25b38;
+}
+.video-toggle {
+  display: grid;
+  width: 35px;
+  height: 100%;
+  place-items: center;
+  padding: 0;
+  color: #69736b;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 20px;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+.video-toggle:hover,
+.video-toggle.is-open {
+  color: #d25b38;
+}
+.video-toggle.is-open span {
+  transform: rotate(180deg);
+}
+.video-toggle:focus-visible {
+  outline: 2px solid #d25b38;
+  outline-offset: -3px;
+}
+.video-panel {
+  max-width: 520px;
+  padding: 0 0 18px 45px;
+  animation: rise 0.25s ease both;
+}
+.video-frame {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #dfe1d8;
+}
+.video-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 .workout-number {
   color: #a3a79f;
@@ -260,6 +310,16 @@ footer {
   }
   .workout-row {
     grid-template-columns: 35px 1fr 24px;
+  }
+  .workout-line {
+    grid-template-columns: 1fr 32px;
+  }
+  .video-toggle {
+    width: 32px;
+  }
+  .video-panel {
+    max-width: none;
+    padding-left: 35px;
   }
   footer {
     margin-top: 54px;
