@@ -2,17 +2,134 @@ import { useState } from "react";
 import "./App.css";
 
 const workouts = [
-  { name: "Big Toe Stretch", detail: "30 seconds", tag: "01" },
-  { name: "Sit on heels", detail: "30 seconds", tag: "02" },
-  { name: "QL Extension at wall", detail: "2 sets of 15", tag: "03" },
-  { name: "90, 90, whole circuit", detail: "Each side 30 seconds", tag: "04" },
-  { name: "Seated Good Morning Form", detail: "2 sets of 5", tag: "05" },
-  { name: "Wall Pull Over", detail: "10 reps", tag: "06" },
-  { name: "Trap 3 raises on floor", detail: "10 reps", tag: "07" },
-  { name: "Couch Stretch", detail: "1 minute per side", tag: "08" },
-  { name: "Backward Walking", detail: "2 minutes", tag: "09" },
-  { name: "Forward and Backward Running", detail: "100 yards each", tag: "10" },
+  {
+    name: "Big Toe Stretch",
+    detail: "30 seconds",
+    tag: "01",
+    videos: ["big toe stretch ATG", "big toe mobility exercise"],
+  },
+  {
+    name: "Sit on heels",
+    detail: "30 seconds",
+    tag: "02",
+    videos: ["sit on heels ATG", "ankle mobility sit on heels"],
+  },
+  {
+    name: "Lateral band walk",
+    detail: "30 seconds",
+    tag: "02",
+    videos: ["lateral band walk ATG", "lateral band walk tutorial"],
+  },
+  {
+    name: "90, 90, whole circuit",
+    detail: "Each side 30 seconds",
+    tag: "04",
+    videos: ["90 90 hip stretch ATG", "90 90 hip mobility circuit"],
+  },
+  {
+    name: "Reverse Plank",
+    detail: "2 sets of 5",
+    tag: "05",
+    videos: ["reverse plank ATG", "reverse plank exercise tutorial"],
+  },
+  {
+    name: "Side Plank Leg Lift",
+    detail: "4 reps of 10 seconds",
+    tag: "05",
+    videos: ["side plank leg lift ATG", "side plank leg lift tutorial"],
+  },
+  {
+    name: "Wall Pull Over",
+    detail: "10 reps",
+    tag: "06",
+    videos: ["wall pullover ATG", "wall pullover shoulder mobility"],
+  },
+  {
+    name: "Trap 3 raises on floor",
+    detail: "10 reps",
+    tag: "07",
+    videos: ["trap 3 raise on floor", "trap 3 raise exercise tutorial"],
+  },
+  {
+    name: "Couch Stretch",
+    detail: "1 minute per side",
+    tag: "08",
+    videos: ["couch stretch ATG", "couch stretch tutorial"],
+  },
+  {
+    name: "QL Extension at wall",
+    detail: "2 sets of 15",
+    tag: "03",
+    videos: ["QL extension at wall", "quadratus lumborum wall stretch"],
+  },
+  {
+    name: "Single Leg RDL",
+    detail: "100 yards each",
+    tag: "10",
+    videos: ["single leg RDL", "single leg Romanian deadlift tutorial"],
+  },
+  {
+    name: "Forward and Backward Running",
+    detail: "100 yards each",
+    tag: "10",
+    videos: ["forward backward running drill", "running drills tutorial"],
+  },
 ];
+
+function WorkoutVideoCarousel({ workout }) {
+  const [activeVideo, setActiveVideo] = useState(0);
+  const videoQuery = encodeURIComponent(workout.videos[activeVideo]);
+
+  function showVideo(direction) {
+    setActiveVideo(
+      (current) =>
+        (current + direction + workout.videos.length) % workout.videos.length,
+    );
+  }
+
+  return (
+    <div className="video-carousel" aria-label={`${workout.name} video guides`}>
+      <div className="video-frame">
+        <iframe
+          src={`https://www.youtube.com/embed?listType=search&list=${videoQuery}`}
+          title={`${workout.name} video guide ${activeVideo + 1}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      </div>
+      <div className="carousel-controls">
+        <button
+          type="button"
+          className="carousel-arrow"
+          onClick={() => showVideo(-1)}
+          aria-label={`Previous ${workout.name} video`}
+        >
+          &#8592;
+        </button>
+        <div className="carousel-dots" aria-label="Choose video guide">
+          {workout.videos.map((video, index) => (
+            <button
+              type="button"
+              className={`carousel-dot ${activeVideo === index ? "is-active" : ""}`}
+              key={video}
+              onClick={() => setActiveVideo(index)}
+              aria-label={`Show video ${index + 1}: ${video}`}
+              aria-pressed={activeVideo === index}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          className="carousel-arrow"
+          onClick={() => showVideo(1)}
+          aria-label={`Next ${workout.name} video`}
+        >
+          &#8594;
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function App() {
   const [completed, setCompleted] = useState([]);
@@ -82,22 +199,24 @@ function App() {
           {workouts.map((workout, index) => {
             const isCompleted = completed.includes(index);
             return (
-              <button
-                className={`workout-row ${isCompleted ? "is-complete" : ""}`}
-                key={workout.name}
-                type="button"
-                onClick={() => toggleWorkout(index)}
-                aria-pressed={isCompleted}
-              >
-                <span className="workout-number">{workout.tag}</span>
-                <span className="workout-name">
-                  <strong>{workout.name}</strong>
-                  <small>{workout.detail}</small>
-                </span>
-                <span className="check-box" aria-hidden="true">
-                  {isCompleted ? "✓" : ""}
-                </span>
-              </button>
+              <article className="workout-card" key={workout.name}>
+                <button
+                  className={`workout-row ${isCompleted ? "is-complete" : ""}`}
+                  type="button"
+                  onClick={() => toggleWorkout(index)}
+                  aria-pressed={isCompleted}
+                >
+                  <span className="workout-number">{workout.tag}</span>
+                  <span className="workout-name">
+                    <strong>{workout.name}</strong>
+                    <small>{workout.detail}</small>
+                  </span>
+                  <span className="check-box" aria-hidden="true">
+                    {isCompleted ? "✓" : ""}
+                  </span>
+                </button>
+                <WorkoutVideoCarousel workout={workout} />
+              </article>
             );
           })}
         </div>
