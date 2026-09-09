@@ -77,10 +77,46 @@ h1 em {
   font-size: 17px;
   line-height: 1.45;
 }
+.day-picker {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  padding: 0 0 34px;
+  border-bottom: 1px solid #c9ccc2;
+}
+.day-picker button {
+  display: grid;
+  gap: 6px;
+  min-height: 58px;
+  padding: 10px 6px;
+  color: #7b8178;
+  text-align: left;
+  background: transparent;
+  border: 1px solid #c9ccc2;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+.day-picker button:hover,
+.day-picker button.is-selected {
+  color: #f5f3ed;
+  background: #1f3029;
+  border-color: #1f3029;
+}
+.day-picker span {
+  font:
+    700 10px/1 Arial,
+    sans-serif;
+  letter-spacing: 1px;
+}
+.day-picker small {
+  font-size: 11px;
+}
 .progress-panel {
   max-width: 490px;
   padding: 25px 0 38px;
-  border-top: 1px solid #c9ccc2;
 }
 .progress-meta {
   display: flex;
@@ -188,6 +224,55 @@ h1 em {
   max-width: 520px;
   padding: 0 0 18px 45px;
   animation: rise 0.25s ease both;
+}
+.video-link-form {
+  margin-bottom: 12px;
+}
+.video-link-form label {
+  display: block;
+  margin-bottom: 7px;
+  color: #9a9e96;
+  font:
+    700 9px/1 Arial,
+    sans-serif;
+  letter-spacing: 1.4px;
+}
+.video-link-controls {
+  display: flex;
+  gap: 8px;
+}
+.video-link-controls input {
+  min-width: 0;
+  flex: 1;
+  padding: 10px 11px;
+  color: #22302b;
+  background: #f5f3ed;
+  border: 1px solid #c9ccc2;
+  font:
+    12px/1.2 Arial,
+    sans-serif;
+}
+.video-link-controls input:focus {
+  outline: 2px solid #d25b38;
+  outline-offset: -1px;
+}
+.video-link-controls button {
+  padding: 0 12px;
+  color: #f5f3ed;
+  background: #1f3029;
+  border: 0;
+  cursor: pointer;
+  font:
+    700 9px/1 Arial,
+    sans-serif;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+}
+.video-empty {
+  padding: 18px;
+  color: #8b9189;
+  background: #dfe1d8;
+  font-size: 12px;
 }
 .video-frame {
   overflow: hidden;
@@ -298,6 +383,9 @@ footer {
   .intro {
     padding-top: 61px;
   }
+  .day-picker {
+    grid-template-columns: repeat(4, 1fr);
+  }
   h1 {
     letter-spacing: -4px;
   }
@@ -320,6 +408,12 @@ footer {
   .video-panel {
     max-width: none;
     padding-left: 35px;
+  }
+  .video-link-controls {
+    display: grid;
+  }
+  .video-link-controls button {
+    min-height: 36px;
   }
   footer {
     margin-top: 54px;
