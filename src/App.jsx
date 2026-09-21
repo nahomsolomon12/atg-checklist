@@ -65,7 +65,7 @@ function WorkoutVideo({ workout, videoLink, onVideoLinkChange, onSave }) {
 }
 
 function App() {
-  const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
+  const todayIndex = new Date().getDay() % workoutSplit.length;
   const [selectedDay, setSelectedDay] = useState(todayIndex);
   const [completedByDay, setCompletedByDay] = useState({});
   const [openVideos, setOpenVideos] = useState([]);
@@ -132,7 +132,7 @@ function App() {
           ATG<span>/</span>12
         </div>
         <div className="day-label">
-          <span className="status-dot" /> DAILY CIRCUIT
+          <span className="status-dot" /> THREE DAY SPLIT
         </div>
       </header>
       <section className="intro" aria-labelledby="page-title">
@@ -143,7 +143,7 @@ function App() {
           <em>base.</em>
         </h1>
         <p className="intro-copy">
-          A focused split. One daily practice.
+          A focused split for stronger movement.
           <br />
           Move well, then move further.
         </p>
@@ -243,7 +243,7 @@ function App() {
           <h2>
             Congrats, you completed your {selectedSchedule.day} workout.
             <br />
-            See you tomorrow.
+            See you on your next training day.
           </h2>
           <button className="reset-button" type="button" onClick={resetDay}>
             Start a new circuit <span>↗</span>

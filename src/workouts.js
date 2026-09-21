@@ -1,113 +1,75 @@
 const workouts = [
   {
-    name: "Backward Walking",
+    name: "Elephant Walks",
     detail: "30 seconds",
     tag: "01",
     videoLink: "",
   },
   {
-    name: "Big Toe Stretch",
-    detail: "30 seconds",
-    tag: "02",
-    videoLink: "",
-  },
-  {
-    name: "Heel Sit",
-    detail: "30 seconds",
-    tag: "03",
-    videoLink: "",
-  },
-  {
-    name: "Elephant Walks",
-    detail: "30 seconds",
-    tag: "04",
-    videoLink: "",
-  },
-  {
     name: "Quadruped Donkey Kick",
     detail: "10 reps per side",
-    tag: "05",
+    tag: "02",
     videoLink: "",
   },
   {
     name: "Quadruped Fire Hydrant",
     detail: "10 reps per side",
-    tag: "06",
+    tag: "03",
     videoLink: "",
   },
   {
     name: "Hip Flexor Squeeze and Stretch",
     detail: "30 seconds per side",
-    tag: "07",
+    tag: "04",
     videoLink: "",
   },
   {
     name: "Wall Pullover",
     detail: "10 reps",
-    tag: "08",
+    tag: "05",
     videoLink: "",
   },
   {
     name: "Trap Three Raises",
     detail: "10 reps",
-    tag: "09",
+    tag: "06",
     videoLink: "",
   },
   {
     name: "External Shoulder Rotation",
     detail: "10 reps per side",
-    tag: "10",
+    tag: "07",
     videoLink: "",
   },
   {
     name: "QL by the Wall",
     detail: "2 sets of 15",
-    tag: "11",
+    tag: "08",
     videoLink: "",
   },
   {
     name: "Two Pushups (Full)",
     detail: "2 reps",
-    tag: "12",
+    tag: "09",
     videoLink: "",
   },
 ];
 
 const workoutSplit = [
   {
-    day: "Monday",
-    focus: "Ankles and Calves",
-    workoutTags: ["01", "02", "03"],
-  },
-  {
-    day: "Tuesday",
-    focus: "Hip Flexor and Glutes",
-    workoutTags: ["04", "05", "06", "07"],
-  },
-  {
-    day: "Wednesday",
-    focus: "Ankles and Calves",
-    workoutTags: ["01", "02", "03"],
-  },
-  {
-    day: "Thursday",
-    focus: "Hip Flexor and Glutes",
-    workoutTags: ["04", "05", "06", "07"],
-  },
-  {
-    day: "Friday",
+    day: "Day 1",
     focus: "Upper Body",
-    workoutTags: ["08", "09", "10", "11", "12"],
+    workoutTags: ["05", "06", "07", "08", "09"],
   },
   {
-    day: "Saturday",
+    day: "Day 2",
     focus: "Hip Flexor and Glutes",
-    workoutTags: ["04", "05", "06", "07"],
+    workoutTags: ["01", "02", "03", "04"],
   },
   {
-    day: "Sunday",
-    focus: "Upper Body",
-    workoutTags: ["08", "09", "10", "11", "12"],
+    day: "Day 3",
+    focus: "Upper Body + Hip Flexor and Glutes",
+    workoutTags: ["01", "02", "03", "04", "05", "06", "07", "08", "09"],
   },
 ];
 
