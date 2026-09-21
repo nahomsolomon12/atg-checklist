@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { workoutSplit, workouts } from "./workouts";
 
@@ -64,7 +64,162 @@ function WorkoutVideo({ workout, videoLink, onVideoLinkChange, onSave }) {
   );
 }
 
+const hygienePillars = [
+  {
+    id: "shower",
+    number: "01",
+    name: "Shower + exfoliate",
+    detail: "Clean skin, refreshed and ready for the day.",
+  },
+  {
+    id: "oral-care",
+    number: "02",
+    name: "Brush + floss",
+    detail: "Keep the basics sharp, morning and night.",
+  },
+  {
+    id: "cologne",
+    number: "03",
+    name: "Cologne",
+    detail: "One or two sprays. Leave a quiet impression.",
+  },
+];
+
+function HygienePage({ onNavigate }) {
+  const [completed, setCompleted] = useState([]);
+  const completedCount = completed.length;
+  const isFinished = completedCount === hygienePillars.length;
+
+  function togglePillar(id) {
+    setCompleted((current) =>
+      current.includes(id)
+        ? current.filter((item) => item !== id)
+        : [...current, id],
+    );
+  }
+
+  function resetPillars() {
+    setCompleted([]);
+  }
+
+  return (
+    <main className="app-shell hygiene-shell">
+      <header className="topbar">
+        <button
+          className="brand-mark brand-button"
+          type="button"
+          onClick={() => onNavigate("/")}
+        >
+          ATG<span>/</span>12
+        </button>
+        <nav className="page-nav" aria-label="Primary navigation">
+          <button
+            className="page-nav-link is-active"
+            type="button"
+            onClick={() => onNavigate("/hygiene")}
+          >
+            HYGIENE
+          </button>
+          <button
+            className="page-nav-link"
+            type="button"
+            onClick={() => onNavigate("/")}
+          >
+            TRAINING
+          </button>
+        </nav>
+      </header>
+      <section className="intro hygiene-intro" aria-labelledby="hygiene-title">
+        <p className="eyebrow">DAILY STANDARD / PERSONAL CARE</p>
+        <h1 id="hygiene-title">
+          Keep your
+          <br />
+          <em>edge.</em>
+        </h1>
+        <p className="intro-copy">
+          Clean details. Quiet confidence.
+          <br />
+          Take care of the basics every day.
+        </p>
+      </section>
+      <section className="hygiene-progress" aria-label="Hygiene progress">
+        <div className="progress-meta">
+          <span>YOUR STANDARD</span>
+          <strong>
+            {String(completedCount).padStart(2, "0")} <small>/ 03</small>
+          </strong>
+        </div>
+        <div className="progress-track">
+          <div
+            className="progress-fill"
+            style={{
+              width: `${(completedCount / hygienePillars.length) * 100}%`,
+            }}
+          />
+        </div>
+        <p>
+          {isFinished
+            ? "Standard met. Show up ready."
+            : `${hygienePillars.length - completedCount} pillars remaining today.`}
+        </p>
+      </section>
+      <section className="hygiene-list" aria-label="Hygiene pillars">
+        <div className="list-heading">
+          <span>THE DAILY STANDARD</span>
+          <span>CHECK OFF AS YOU GO</span>
+        </div>
+        {hygienePillars.map((pillar) => {
+          const isCompleted = completed.includes(pillar.id);
+          return (
+            <article className="hygiene-card" key={pillar.id}>
+              <button
+                className={`hygiene-row ${isCompleted ? "is-complete" : ""}`}
+                type="button"
+                onClick={() => togglePillar(pillar.id)}
+                aria-pressed={isCompleted}
+              >
+                <span className="workout-number">{pillar.number}</span>
+                <span className="hygiene-name">
+                  <strong>{pillar.name}</strong>
+                  <small>{pillar.detail}</small>
+                </span>
+                <span className="check-box" aria-hidden="true">
+                  {isCompleted ? "✓" : ""}
+                </span>
+              </button>
+            </article>
+          );
+        })}
+      </section>
+      <section
+        className="non-negotiable"
+        aria-labelledby="non-negotiable-title"
+      >
+        <p className="eyebrow">NON-NEGOTIABLE</p>
+        <div className="non-negotiable-content">
+          <h2 id="non-negotiable-title">Brush and floss before bed.</h2>
+          <p>Even on the days when everything else slips.</p>
+        </div>
+      </section>
+      {isFinished && (
+        <section className="completion" aria-live="polite">
+          <p>STANDARD COMPLETE</p>
+          <h2>You handled the details. Carry that feeling forward.</h2>
+          <button className="reset-button" type="button" onClick={resetPillars}>
+            Reset standard <span>↗</span>
+          </button>
+        </section>
+      )}
+      <footer>
+        <span>ATG CHECKLIST</span>
+        <span>SHOW UP. FEEL READY.</span>
+      </footer>
+    </main>
+  );
+}
+
 function App() {
+  const [page, setPage] = useState(() => window.location.pathname);
   const todayIndex = new Date().getDay() % workoutSplit.length;
   const [selectedDay, setSelectedDay] = useState(todayIndex);
   const [completedByDay, setCompletedByDay] = useState({});
@@ -86,6 +241,20 @@ function App() {
   const completed = completedByDay[selectedSchedule.day] ?? [];
   const completedCount = completed.length;
   const isFinished = completedCount === dayWorkouts.length;
+
+  useEffect(() => {
+    function handlePopState() {
+      setPage(window.location.pathname);
+    }
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  function navigate(path) {
+    window.history.pushState({}, "", path);
+    setPage(path);
+  }
 
   function toggleWorkout(tag) {
     setCompletedByDay((current) => {
@@ -125,15 +294,32 @@ function App() {
     }));
   }
 
+  if (page === "/hygiene") {
+    return <HygienePage onNavigate={navigate} />;
+  }
+
   return (
     <main className="app-shell">
       <header className="topbar">
-        <div className="brand-mark" aria-label="ATG Checklist home">
+        <button
+          className="brand-mark brand-button"
+          type="button"
+          onClick={() => navigate("/")}
+        >
           ATG<span>/</span>12
-        </div>
-        <div className="day-label">
-          <span className="status-dot" /> THREE DAY SPLIT
-        </div>
+        </button>
+        <nav className="page-nav" aria-label="Primary navigation">
+          <button
+            className="page-nav-link"
+            type="button"
+            onClick={() => navigate("/hygiene")}
+          >
+            HYGIENE
+          </button>
+          <div className="day-label">
+            <span className="status-dot" /> THREE DAY SPLIT
+          </div>
+        </nav>
       </header>
       <section className="intro" aria-labelledby="page-title">
         <p className="eyebrow">ATHLETIC TRAINING / FOUNDATION</p>
